@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -16,25 +15,29 @@ func main() {
 		if err != nil {
 			break
 		}
-		fmt.Println(howMuch, from, to)
+		res := convert(howMuch, from)
+		fmt.Println(res)
 
 	}
 }
 
-func convert(howMuch float64, from, to string) {
+func convert(howMuch float64, from string) float64 {
 	switch from {
 	case "EUR":
-
+		howMuch *= 40
+	case "USD":
+		howMuch *= 30
 	}
+	return howMuch
 }
 
 func userInput() (float64, string, string, error) {
 	fmt.Println("Введите количество валюты  и ее тип (USD/UER)")
-	var a float64
-	var b, c string
-	_, err := fmt.Scan(&a, &b, &c)
+	var number float64
+	var source, target string
+	_, err := fmt.Scan(&number, &source, &target)
 	if err != nil {
-		return _, _, _, errors.New("Ошибка ввода")
+		return number, source, target, err
 	}
-	return a, b, c, _
+	return number, source, target, err
 }
