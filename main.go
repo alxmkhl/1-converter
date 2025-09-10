@@ -11,33 +11,38 @@ const RUB = 1
 func main() {
 
 	for {
-		howMuch, from, to, err := userInput()
-		if err != nil {
-			break
-		}
-		res := convert(howMuch, from)
+		number, source, target := userInput()
+
+		res := convert(number, source, target)
 		fmt.Println(res)
 
 	}
 }
 
-func convert(howMuch float64, from string) float64 {
-	switch from {
-	case "EUR":
-		howMuch *= 40
-	case "USD":
-		howMuch *= 30
+func convert(howMuch float64, source, target string) float64 {
+	if source == "EUR" && target == "RUB" {
+		return howMuch * 40
+	}
+	if source == "USD" && target == "RUB" {
+		return howMuch * 30
+	}
+	if source == "USD" && target == "EUR" {
+		return howMuch * 1.10
+	}
+	if source == "EUR" && target == "USD" {
+		return howMuch * 0.90
 	}
 	return howMuch
 }
 
-func userInput() (float64, string, string, error) {
-	fmt.Println("Введите количество валюты  и ее тип (USD/UER)")
+func userInput() (float64, string, string) {
 	var number float64
 	var source, target string
-	_, err := fmt.Scan(&number, &source, &target)
-	if err != nil {
-		return number, source, target, err
-	}
-	return number, source, target, err
+	fmt.Println("Введите исходную валюту:")
+	fmt.Scan(&source)
+	fmt.Println("Введите количество:")
+	fmt.Scan(&number)
+	fmt.Println("Введите целевую валюту:")
+	fmt.Scan(&target)
+	return number, source, target
 }
